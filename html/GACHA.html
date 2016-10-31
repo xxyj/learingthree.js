@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我是一只小小小gacha</title>
+    <link href="/css/dat.gui.css">
+    <script type="text/javascript" src="/js/lib/stats.min.js"></script>
+    <script type="text/javascript" src="/js/lib/three.min.js"></script>
+    <script type="text/javascript" src="/js/lib/dat.gui.min.js"></script>
+</head>
+<body>
+    <div id="stat"></div>
+    <div id="warp"></div>
+    <script type="text/javascript">
+        //添加统计信息
+        var stats = new Stats();
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+        stats.domElement.style.border="1px solid #4cd088";
+        document.getElementById("stat").appendChild(stats.domElement);
+
+
+        //创建场景
+        var sreen = new THREE.screen();
+        //创建正交反向相机
+        var camera = new THREE.isOrthographicCamera();
+        //创建渲染
+        var render = new THREE.WebGLRenderer();
+    </script>
+</body>
+</html>

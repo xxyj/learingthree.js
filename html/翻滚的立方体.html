@@ -3,7 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <link href="/css/dat.gui.css">
+    <script type="text/javascript" src="/js/lib/stats.min.js"></script>
     <script type="text/javascript" src="/js/lib/three.min.js"></script>
+    <script type="text/javascript" src="/js/lib/dat.gui.min.js"></script>
     <style>
         body{
             margin:0px;
@@ -11,8 +14,28 @@
     </style>
 </head>
 <body>
+    <div id = "stat"></div>
     <div id = "first"></div>
     <script>
+        //添加统计信息
+        var stats = new Stats();
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+        stats.domElement.style.border="1px solid #4cd088";
+        document.getElementById("stat").appendChild(stats.domElement);
+
+        //穿件监视器
+        var controls = new function() {
+            this.rotationSpeed = 0.02;
+            this.bouncingSpeed = 0.03;
+        }
+
+        var gui = new dat.GUI();
+        gui.add(controls, 'rotationSpeed',0,0.5);
+        gui.add(controls, 'bouncingSpeed',0,0.5);
+
         //创建屏幕
         var scene = new THREE.Scene();
         //创建远景相机
@@ -23,9 +46,10 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         //数据加载到dom中
         var content  = document.getElementById("first");
-        content.appendChild( renderer.domElement);
+        content.appendChild(renderer.domElement);
         //几何模型  此处是立方体 长宽高，单位都是米
-        var geometry = new THREE.CubeGeometry(1,1,1);
+        //var geometry = new THREE.CubeGeometry(1,1,1);
+        var geometry = new THREE.SphereGeometry(0.2, 1, 1);
         //材质，此处设置了颜色
         var material = new THREE.MeshBasicMaterial({color: 0x3cd088});
         //网孔，将材质设置到网孔上
@@ -34,13 +58,17 @@
         scene.add(cube);
         //摄像机的纵向深度
         camera.position.z = 5;
+        cube.position.x = -8;
         //动效，方块转动
         function render() {
             requestAnimationFrame(render);
-            cube.rotation.x += 0.1;
-            cube.rotation.y += 0.1;
+            //cube.rotation.x  +=controls.rotationSpeed;
+            cube.rotation.y  += controls.rotationSpeed;
+            cube.position.x += 0.01;
+            //cube.rotation.z  += controls.rotationSpeed;
             //重新渲染
             renderer.render(scene, camera);
+            stats.update();
         }
         render();
     </script>
